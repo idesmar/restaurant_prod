@@ -1,0 +1,45 @@
+@use 'sass:map';
+
+
+// displaying color as var(--color)
+@function color($color) {
+	@return var(--#{$color});
+}
+
+/*
+  * COLORS MAP
+  - enclosing color code in '' will prevent conversion
+    to hex code when interpolated
+  - may prevent color manipulation by custom function?
+*/
+// ! BETTER && CONSISTENT NAMING FORMAT
+$colors: (
+	'default': #1a1a1a,
+	'accentColor': 'hsl(32, 100%, 50%)',
+	'accentColorDark': 'hsl(31, 95%, 24%)',
+	'accentColorLight': 'hsl(31, 100%, 65%)',
+	'accentColorAlpha': 'hsla(32, 100%, 50%, 0.9)',
+	'darker-section': 'hsl(192, 24%, 96%)',
+	'btn-hover': 'hsl(31, 100%, 65%)',
+	'location-border': 'hsl(240, 24%, 68%)',
+	'nav-menu-border': 'hsl(240, 2%, 75%)',
+	'testimonial-clr': 'hsl(240, 17%, 36%)',
+	'testimonial-author-pos': 'hsl(240, 6%, 61%)',
+	'linear-dark': #DEE9ED,
+	'linear-light': #F5F9FA,
+	'hoverAlpha': #ffffff80,
+	'boxShadow': 'hsla(0, 0%, 0%, 0.11)'
+);
+
+
+// mixin to @include inside of :root { }
+@mixin colors {
+	@each $key, $color in $colors {
+		--#{$key}: #{$color};
+	}
+}
+
+// finished root pseudo element containing colors
+:root {
+	@include colors();
+}

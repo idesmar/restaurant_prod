@@ -1,0 +1,207 @@
+@use '../utilities' as *;
+
+.footer {
+  padding: 1rem;
+  background-color: color(darker-section);
+  text-align: center;
+  font-size: rem(12);
+  transition: padding 200ms ease-in;
+
+  @include mediaMap(screen-400) {
+    padding-top: rem(60);
+    p {
+      margin-bottom: rem(22);
+    }
+  }
+
+  @include mediaMap(screen-600) {
+    padding-left: rem(100);
+    padding-right: rem(100);
+    // padding-inline: rem(100); // https://caniuse.com/?search=padding-inline Global	88.1%
+  }
+
+  section > :first-child {
+    @include mediaMap(screen-400) {
+      margin-bottom: rem(40);
+    }
+  }
+
+  &-main {
+    @include mediaMap(screen-400) {
+      display: flex;
+    }
+  }
+
+  &-main, .attribution {
+    @include mediaMap(screen-400) {
+      display: flex;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  section + section {
+    margin-top: 1rem;
+
+    @include mediaMap(screen-400) {
+      margin: unset;
+    }
+  }
+
+  h2 {
+    font-family: $font-accent;
+    font-size: rem(20);
+
+    @include mediaMap(screen-400) {
+      font-size: rem(24);
+    }
+  }
+
+
+  address {
+    font-style: normal;
+
+    span {
+      border-bottom: 1px solid;
+    }
+  }
+
+  &-company {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include mediaMap(screen-400) {
+      display: block;
+      width: rem(206);
+    }
+  }
+
+  &-logo {
+    display: inline-block;
+
+    @include mediaMap(screen-400) {
+      margin-bottom: rem(22);
+    }
+  }
+
+  &-logo + p {
+    max-width: rem(300);
+  }
+
+  .subscription {
+
+    form {
+      display: flex;
+      justify-content: center;
+      position: relative;
+
+      @include mediaMap(screen-400) {
+        display: unset;
+      }
+    }
+  }
+
+  .emailWrapper {
+    position: relative;
+    width: fit-content;
+
+    @include mediaMap(screen-400) {
+      width: auto;
+    }
+
+    .emailSubscription {
+      border: 1px solid;
+      padding: 0.3rem 0.75rem;
+      border-radius: 0.3em;
+
+      @include mediaMap(screen-400) {
+        width: 100%;
+      }
+
+      &:invalid {
+        border: 1px solid red;
+      }
+    }
+
+    button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      color: color(accentColor);
+
+      svg {
+        transform: scale(0.5);
+      }
+    }
+  }
+
+  .error {
+    color: red;
+
+    &.active {
+      position: absolute;
+      top: 100%;
+      font-size: smaller;
+
+      @include mediaMap(screen-400) {
+        position: unset;
+        top: unset;
+      }
+    }
+  }
+
+
+  small {
+    display: block;
+    font-size: inherit;
+    margin: auto 0;
+  }
+
+  .attribution {
+    margin-top: 1rem;
+  }
+
+  .socialLinks {
+    display: flex;
+    justify-content: center;
+    color: color(accentColor);
+    margin-top: 0.6rem;
+
+    @include mediaMap(screen-400) {
+      margin: unset;
+    }
+
+    li + li {
+      margin-left: 0.6rem;
+    }
+
+    .socialLink {
+      $diam: rem(28);
+      width: $diam;
+      height: $diam;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 50%;
+      border: rem(1) solid;
+
+      svg {
+        transform: scale(0.45);
+      }
+
+      &:hover, &:focus-visible {
+        outline: none;
+        background-color: color(accentColor);
+
+        svg {
+          transition: all 250ms cubic-bezier(0, 0.94, 0.82, 1.58);
+          transform: scale(0.65);
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}

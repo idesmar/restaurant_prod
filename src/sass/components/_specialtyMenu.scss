@@ -1,0 +1,96 @@
+@use '../utilities' as *;
+
+
+.specialtyMenu {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: ratio(33); // fallback for min() 33px/1440px * 100vw
+  gap: min(ratio(33), rem(33)); // min() -- support as of writing is 91.53%
+
+  @include mediaMap(screen-400) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  &-card {
+    position: relative;
+    overflow: hidden;
+
+    &:hover, &:focus-within {
+      .details {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .sale.show {
+      position: absolute;
+      display: block;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 2rem;
+      background-color: color(accentColor);
+      border-radius: 100vw;
+      color: #fff;
+    }
+
+    .details {
+      transition: all 250ms ease-in;
+      opacity: 0;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      position: absolute;
+      @include inset;
+      inset: 0;
+      /*
+        ? translateY(100%) / slide from bottom is clunky on card:focus-within
+        img drops from above, weirdly, that
+          - affects transition of .details
+          - sorta cancels the slide-up movement of .details
+      */
+      transform: translateY(-100%);
+      background-color: hsla(0, 0%, 0%, 0.561);
+
+      color: white;
+
+      &-content {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        font-size: rem(28);
+      }
+
+      &-price {
+        font-family: $font-accent;
+      }
+
+      &-rating {
+        // width comes from js
+        // * 1rem x 1rem --> star svg (background-image) dimension
+        height: 1rem;
+        margin-top: 0.5rem;
+        font-size: rem(8);
+        color: transparent;
+        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="1rem" height="1rem" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="%23FFC107" d="m908.1 353.1l-253.9-36.9L540.7 86.1c-3.1-6.3-8.2-11.4-14.5-14.5c-15.8-7.8-35-1.3-42.9 14.5L369.8 316.2l-253.9 36.9c-7 1-13.4 4.3-18.3 9.3a32.05 32.05 0 0 0 .6 45.3l183.7 179.1l-43.4 252.9a31.95 31.95 0 0 0 46.4 33.7L512 754l227.1 119.4c6.2 3.3 13.4 4.4 20.3 3.2c17.4-3 29.1-19.5 26.1-36.9l-43.4-252.9l183.7-179.1c5-4.9 8.3-11.3 9.3-18.3c2.7-17.5-9.5-33.7-27-36.3z"/></svg>');
+        background-repeat: repeat no-repeat;
+        background-position: left;
+        pointer-events: none;
+      }
+
+      .orderBtn {
+        margin-top: 1.5ex;
+        background-color: color(accentColor);
+        border-radius: 0.4em;
+        padding: 0.4rem 0.8rem;
+
+        &:hover {
+          background-color: color(accentColorLight);
+        }
+      }
+    }
+  }
+}

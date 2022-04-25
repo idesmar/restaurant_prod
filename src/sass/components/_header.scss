@@ -1,0 +1,142 @@
+@use "../utilities" as *;
+
+// * MODULE VARIABLES
+$logoHeight: 56; // height="56" default height defined in index.html
+$headerPaddingBlock: 6; // dev defined padding block
+$headerPaddingInline: 32;
+$scrollPaddingTop: calc($logoHeight + ($headerPaddingBlock * 2));
+
+html {
+  @include mediaMap(screen-400) {
+    scroll-padding-top: rem($scrollPaddingTop);
+  }
+}
+
+// header / desktop navigation ====================
+.header {
+  display: none;
+
+  @include mediaMap(screen-400) {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+
+    &-inner {
+      position: relative;
+      padding: rem4($headerPaddingBlock, $headerPaddingInline);
+      margin: 0 auto;
+
+      background-color: color(hoverAlpha);
+      backdrop-filter: blur(rem(22));
+
+      flex-basis: $max-screen;
+
+      display: flex;
+      align-items: center;
+
+      font-size: rem(12);
+    }
+
+    .navLink {
+      padding: 0.5rem 1rem;
+
+      &:focus-visible,
+      &:hover {
+        border-bottom: rem(1) solid color(accentColor);
+      }
+    }
+
+    button {
+      padding: 0.5rem;
+      margin-left: rem(40);
+
+      &:hover,
+      &:focus-visible {
+        transform: scale(1.5);
+      }
+
+      svg {
+        $side: rem(20);
+        width: $side;
+        height: $side;
+      }
+    }
+
+    &-logo {
+      &:hover,
+      &:focus-visible {
+        outline: revert;
+      }
+    }
+
+    nav {
+      margin-left: auto;
+    }
+
+    input[type="search"] {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin: 0.5rem;
+      visibility: hidden;
+
+      background-color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5em;
+
+      transform: translateX(100%);
+      transition: all 500ms $cubic-pop;
+
+      &.searchActive {
+        visibility: visible;
+        transform: translateX(0);
+      }
+    }
+
+    ul {
+      display: flex;
+    }
+  }
+}
+
+
+// logo animation ===========================================
+.header-logo.animating {
+  $duration: 2s;
+
+  .logoIcon {
+    animation: wheel $duration;
+  }
+
+  @keyframes wheel {
+    0%, 100% {
+      transform-origin: rem(25);
+      transform: rotate(0);
+    }
+    40%, 60% {
+      transform-origin: rem(60);
+      transform: rotate(360deg) translateX(35%) scale(1.2);
+    }
+  }
+
+  .logoText-1 {
+    animation: slideInOut $duration;
+  }
+
+  .logoText-2 {
+    animation: slideInOut $duration;
+    animation-delay: 100ms;
+  }
+
+  @keyframes slideInOut {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(100%);
+    }
+  }
+}

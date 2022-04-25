@@ -1,0 +1,16 @@
+@forward 'sideNav';
+@forward 'header';
+@forward 'main';
+@forward 'specialtyMenu';
+@forward 'footer';
+
+/*
+  used :where, aka forgiving selector, to REMOVE higher specificity score
+  :where and :not [list argument] selector may not have the best support
+  at around 88-90% as of this writing, however, low impact on UX is expected
+*/
+.iconLink, a:where(:not(.footer-logo, .dribble)) {
+ &:focus-visible {
+   outline: none;
+ }
+}

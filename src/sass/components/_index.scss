@@ -1,0 +1,9 @@
+@forward 'components';
+
+/*
+  this file is used primarily to forward consolidated
+  sass modules in _components.scss
+  NOTE: _index.scss represents the entire folder
+  which makes easier referencing
+  ie. @use 'components'; in styles.scss refers to the folder
+*/

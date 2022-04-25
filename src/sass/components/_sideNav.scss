@@ -1,0 +1,137 @@
+@use "../utilities"as *;
+
+// * MODULE VARIABLES
+$burgerSide: 2rem;
+$sideNavWidth: rem(250);
+$sideNavPaddingInline: calc($burgerSide + 1.5rem);
+$sideNavPaddingBlock: 0.5rem;
+$sideNavIconWidth: rem(10);
+
+// burgerMenu =======================
+
+.burgerContainer,
+aside {
+  @include mediaMap(screen-400) {
+    visibility: hidden;
+    display: none;
+  }
+}
+
+.burgerContainer {
+  width: $burgerSide;
+  height: $burgerSide;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  z-index: 999;
+  background-color: color(hoverAlpha);
+  border-radius: rem(2);
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.isSideNavShowing {
+  &:checked ~ aside {
+    visibility: visible;
+    transform: translateX(-$sideNavWidth);
+  }
+
+  &:focus-visible ~ .burgerContainer {
+    outline: rem(1) solid;
+  }
+
+  @include mediaMap(screen-400) {
+    display: none;
+  }
+}
+
+// side navigation =======================
+aside {
+  $paddingWithBurgerSide: 2rem + $burgerSide;
+
+  padding: $paddingWithBurgerSide 0;
+  width: 100%;
+  max-width: $sideNavWidth;
+  width: min(100%, $sideNavWidth);
+  min-height: 100%;
+  z-index: 99;
+
+  visibility: hidden;
+
+  position: fixed;
+  right: -$sideNavWidth;
+  transform: translateX(0);
+  transition: transform 300ms ease-in, visibility 300ms ease-in;
+  background-color: color(accentColorAlpha);
+  backdrop-filter: blur(2px);
+
+  font-size: 1.3rem;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .iconLink {
+    cursor: pointer;
+  }
+
+  .sideNavLink {
+    display: block;
+  }
+
+  a,
+  .iconLink {
+    padding: 0.5rem calc($burgerSide + 0.5rem) 0.5rem 0.5rem;
+    width: 100%;
+
+    &:hover,
+    &:focus-visible {
+      background-color: color(hoverAlpha);
+      color: #000;
+    }
+  }
+
+  .searchContainer {
+    position: relative;
+    box-sizing: border-box;
+
+    .iconLink {
+      position: absolute;
+      // ensure svg is not obstructing input[type:"search"] click
+      padding: 0.5rem;
+
+      // ? somehow top: 0; falls short. label.searchContainer issue?
+      top: -0.5rem;
+      left: 0;
+      right: 0;
+    }
+
+    .navSearch {
+      opacity: 0;
+      padding: 0.5rem 3rem;
+      width: 100%;
+    }
+
+    &:focus-within,
+    &:focus-visible {
+      .iconLink {
+        color: black;
+        background-color: unset;
+        right: unset;
+      }
+
+      .navSearch {
+        // ? navLink icons by default on html is 22 x 18
+        background-color: #fff;
+        opacity: 1;
+        color: #000;
+        cursor: text;
+      }
+    }
+  }
+}

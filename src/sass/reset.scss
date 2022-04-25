@@ -1,0 +1,122 @@
+// > custom reset of https://github.com/elad2412/the-new-css-reset
+
+// consistent font and removal of default styles
+input,
+button,
+textarea,
+select {
+	all: unset;
+	// display: revert;
+	font: inherit;
+	box-sizing: border-box;
+
+	// reverts outline for accessibility reasons
+	// &:focus-visible {
+	// 	outline: revert;
+	// }
+}
+
+// bring cursor back to pointer unset by declaration above
+button {
+	cursor: pointer;
+}
+
+
+// https://blog.maximerouiller.com/post/remove-the-x-from-internet-explorer-and-chrome-input-type-search/
+/* clears the 'X' on Internet Explorer */
+input[type=search] {
+
+	&::-ms-clear,
+	&::-ms-reveal {
+		display: none;
+		width: 0;
+		height: 0;
+	}
+}
+
+/* clears the 'X' on Chrome */
+input[type="search"] {
+
+	&::-webkit-search-decoration,
+	&::-webkit-search-cancel-button,
+	&::-webkit-search-results-button,
+	&::-webkit-search-results-decoration {
+		display: none;
+	}
+}
+
+
+// remove default bullet/numbering on list
+ol,
+ul,
+menu {
+	list-style: none;
+}
+
+// remove hyperlink defaults
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+
+// scroll-behavior on HTML affects the view port when clicked through navigation
+html {
+	scroll-behavior: smooth;
+}
+
+// ensure document is at least the same height of browser's innerHeight
+body {
+	min-height: 100%;
+}
+
+// simple reset
+*,
+*::before,
+*::after {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+// easy manipulation of elements
+img,
+picture,
+video,
+canvas,
+iframe,
+svg {
+	// removes line height as these are inline elements by default, and sets to block
+	display: block;
+	/*
+		initial reset to prevent overflow on initial load
+		> best practice: to assign height="" and width="" in html
+		to prevent overflow then use css for final styling
+		* may require width: 100% if needed afterwards
+	*/
+	max-width: 100%;
+}
+
+/* removes spacing between cells in tables */
+table {
+	border-collapse: collapse;
+}
+
+/* revert the 'white-space' property for textarea elements on Safari */
+textarea {
+	white-space: revert;
+}
+
+/* revert for bug in Chromium browsers
+   - fix for the content editable attribute will work properly. */
+:where([contenteditable]) {
+	-moz-user-modify: read-write;
+	-webkit-user-modify: read-write;
+	overflow-wrap: break-word;
+	// -webkit-line-break: after-white-space;
+}
+
+/* apply back the draggable feature - exist only in Chromium and Safari */
+:where([draggable="true"]) {
+	-webkit-user-drag: element;
+}

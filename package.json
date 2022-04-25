@@ -1,0 +1,38 @@
+{
+  "name": "restaurantsite",
+  "version": "1.0.0",
+  "description": "A restaurant site based on a dribble design by Mithun",
+  "main": "index.js",
+  "scripts": {
+    "copy:assets": "copyfiles -u 1 ./src/assets/* dist",
+    "copy:assetsSubDir": "copyfiles -u 1 ./src/assets/**/* dist",
+    "copy:html": "copyfiles -u 1 ./src/*.html dist",
+    "copy:htmlSubDir": "copyfiles -u 1 ./src/**/*.html dist",
+    "copy:js": "copyfiles -u 1 ./src/js/*.js dist",
+    "copy": "npm-run-all --parallel copy:*",
+    "watch:sass": "sass --no-source-map --watch src/sass:dist/css",
+    "watch:assets": "onchange \"/src/assets/**/*\" -- npm run copy:assets",
+    "watch:html": "onchange \"src/**/*.html\" -- npm run copy:html",
+    "watch:js": "onchange \"src/js/*.js\" -- npm run copy:js",
+    "watch": "npm-run-all --parallel watch:*",
+    "serve": "browser-sync start --server dist --files dist",
+    "start": "npm-run-all copy --parallel watch serve",
+    "build:sass": "sass --no-source-map src/sass:dist/css",
+    "build": "npm-run-all copy build:*",
+    "postbuild": "postcss dist/css/*.css -u autoprefixer cssnano -r --no-map"
+  },
+  "author": "arca devian",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^10.4.4",
+    "copyfiles": "^2.4.1",
+    "cssnano": "^5.1.7",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0",
+    "postcss-cli": "^9.1.0",
+    "sass": "^1.50.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.9"
+  }
+}

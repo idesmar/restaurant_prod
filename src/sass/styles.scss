@@ -1,0 +1,245 @@
+@use "utilities" as *;
+@use "components"; // adding all components to this file
+
+
+img {
+  width: 100%;
+}
+
+/*
+    removed transition on header and aside
+    :not(header *, aside *)
+  * negation list support at 90.58% hence using different approach
+*/
+main *,
+footer * {
+  transition: all 100ms ease-in;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Rubik", sans-serif;
+
+  .bigContainer {
+    width: 100%;
+    max-width: $max-screen;
+    position: relative;
+  }
+}
+
+.skip-to-main {
+  background-color: color(accentColor);
+  color: #fff;
+}
+
+// * adding for better typography
+p {
+  line-height: 1.5;
+}
+
+#location {
+  scroll-margin: 2ex 0 0 0;
+  /*
+    2ex = 2x the approximate height of one character
+    like ch (approximate width of one character)
+    * sources:
+    https://piccalil.li/quick-tip/add-scroll-margin-to-all-elements-which-can-be-targeted/
+    https://every-layout.dev/rudiments/units/#the-ch-and-ex-units
+  */
+}
+
+.homeLocation,
+.emailWrapper {
+  box-shadow: 0 rem(20) rem(30) color(boxShadow);
+}
+
+.modal {
+  position: fixed;
+  z-index: 9999;
+  @include inset;
+  inset: 0;
+  background-color: color(boxShadow);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  font-family: $font-accent;
+  font-size: 1.5rem;
+  color: #fff;
+
+  div {
+    padding: 2rem;
+    margin: 1rem;
+    background-color: color(default);
+    border-radius: 0.5em;
+    box-shadow: 0 1.5rem 1.5rem -0.5rem hsla(0, 0%, 0%, 0.5);
+
+    p + p {
+      font-size: 0.5em;
+    }
+
+    button {
+      font-size: 1rem;
+      width: 100%;
+      padding: 0.3rem;
+      background-color: color(accentColorDark);
+      border-radius: 0.5em;
+      margin-top: 1.5rem;
+
+      &:hover,
+      &:focus-visible {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.home {
+  background-image: linear-gradient(180deg,
+      color(linear-light),
+      color(linear-dark));
+  position: relative;
+
+  > div {
+    z-index: 1;
+
+    @include media(calc($screen-200 + em(100))) {
+      transition: all 250ms ease-in-out;
+      margin-left: rem(80);
+    }
+  }
+
+  &::before {
+    @include media($screen-400) {
+      content: "";
+      position: absolute;
+      @include inset;
+      inset: 0;
+      background-image: url("../assets/background/section-1-min.jpg");
+      background-repeat: no-repeat;
+      background-position: left;
+      background-size: cover;
+    }
+  }
+}
+
+.aboutUs {
+  position: relative;
+
+  > div {
+    padding: 1rem;
+    border-radius: 1rem;
+    z-index: 1;
+    /*
+      improved accessibility if backdrop-filter not supported
+      div background-color is completely transparent which will result to
+      poor accessibility because of back layer's background-image
+    */
+    background-color: #ffffff80;
+    /* https://caniuse.com/css-backdrop-filter
+       better accessibility but only at 88.21% globally as of 3/24/22 */
+    backdrop-filter: blur(rem(22));
+  }
+
+  &::before,
+  &::after {
+    @include mediaMap(screen-200) {
+      position: absolute;
+      content: "";
+      background-repeat: no-repeat;
+      @include inset;
+      inset: 0;
+    }
+  }
+
+  &::before {
+    @include mediaMap(screen-400) {
+      right: 40vw;
+      background-image: url("../assets/background/section-2-left-min.png");
+      background-position: right top;
+      background-size: cover;
+    }
+  }
+
+  &::after {
+    @include mediaMap(screen-200) {
+      background-image: url("../assets/background/section-2-right-min.png");
+      background-position: right bottom;
+    }
+  }
+}
+
+.videoContainer::before {
+  @include mediaMap(screen-200) {
+    content: "";
+    position: absolute;
+    top: -50%;
+    bottom: -20%;
+    left: -50%;
+    right: -50%;
+    z-index: -1;
+
+    background-image: url("../assets/background/section-4-replacement-fine-dining-min.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: grayscale(100%);
+    opacity: 0.1;
+  }
+}
+
+.cartIcon {
+  position: relative;
+  font-size: rem(8);
+
+  // * only available on sideNav
+  &-sideNav {
+    position: relative;
+    width: fit-content;
+
+    .counterContainer {
+      color: inherit;
+      top: -20%;
+      right: -20%;
+    }
+  }
+}
+
+.counterContainer {
+  width: 1.8em;
+  height: 1.8em;
+
+  position: absolute;
+  top: 0.3em;
+  right: 0.3em;
+  outline: 1px solid color(location-border);
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'Courier New', Courier, monospace;
+  color: color(accentColor);
+  font-weight: 700;
+
+  &.alertAdd {
+    animation-name: alertAnimation;
+    animation-duration: 500ms;
+  }
+
+  @keyframes alertAnimation {
+    0%, 100% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.3);
+      background-color: color(accentColorDark);
+      color: #fff;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@use 'sass:map';
+@use 'functions' as *;
+
+
+/*
+* source for breakpoint values
+	https://www.freecodecamp.org/news/the-100-correct-way-to-do-css-breakpoints-88d6a5ba1862
+*/
+
+// * preferred if variables needs to be globally available
+$screen-200: em(600);		// end of mobile
+$screen-400: em(900);		// end of tablet portrait
+$screen-600: em(1200);	// end of tablet landscape
+$screen-800: em(1800);	// end of regular desktop
+$max-screen: rem(1800);
+
+@mixin media($size, $param: 'min-width') {
+	@media ($param: $size) {
+		@content;
+	}
+}
+
+
+// using sass:map
+$breakpoints: (
+	'screen-200': $screen-200,
+	'screen-400': $screen-400,
+	'screen-600': $screen-600,
+	'screen-800': $screen-800
+);
+@mixin mediaMap($size) {
+	@media (min-width: map-get($breakpoints, $size)) {
+		@content;
+	}
+}

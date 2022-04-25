@@ -1,0 +1,75 @@
+@use 'sass:math'; // * update: https://sass-lang.com/documentation/breaking-changes/slash-div
+
+// px to rem conversion ($px arg should be unitless)
+@function rem($px) {
+	@return (math.div($px, 16)) * 1rem;
+}
+
+/*	convert to rem if arg is in unitless representation of px or in px form
+		returns the arg if it does not meet the criteria
+		ie. $size = 1 || 1px	*/
+@function remIf($size) {
+	@if math.is-unitless($size) {
+		@return (math.div($size, 16)) * 1rem;
+	}
+	@if math.unit($size) == "px" {
+		@return (math.div($size, 16px)) * 1rem;
+	}
+	@return $size;
+}
+
+/*	multiple px (up to 4) to rem conversion
+		format based on top right bottom left (ie. padding, margin)	 */
+@function rem4($px1, $px2: $px1, $px3: $px1, $px4: $px2) {
+	@return rem($px1) rem($px2) rem($px3) rem($px4);
+}
+
+// px to em conversion
+@function em($px) {
+	@return (math.div($px, 16)) * 1em;
+}
+
+// return px to vw based on a known viewport(in px)
+@function ratio($px, $viewport-px: 1440) {
+	@return math.div($px, $viewport-px) * 100vw;
+}
+
+// fluid sizes
+// > IMPORTANT: ratio is based on maxSize and maxContainerSize
+@function fluidMinMax($minSize, $maxSize, $minContainerSize, $maxContainerSize) {
+	$fluid: ratio($maxSize, $maxContainerSize);
+	@return min(max(#{remIf($minSize)}, #{$fluid}), #{remIf($maxSize)});
+}
+@function fluidClamp($minSize, $maxSize, $minContainerSize, $maxContainerSize) {
+	$fluid: ratio($maxSize, $maxContainerSize);
+	@return clamp(#{remIf($minSize)}, #{$fluid}, #{remIf($maxSize)});
+}
+
+/*	Fluid Typography
+		returns 3 attributes; 1 main and 2 fallbacks	*/
+@mixin fluidFont($minFont, $maxFont, $minWidth, $maxWidth: 1440) {
+	// fallback if min, max is not supported
+	font-size: remIf($minFont);
+	// fallback if clamp not supported
+	font-size: fluidMinMax($minFont, $maxFont, $minWidth, $maxWidth);
+	font-size: fluidClamp($minFont, $maxFont, $minWidth, $maxWidth);
+
+	// * standalone -- not using helper functions
+	// $fluid: ratio($maxFont, $maxWidth);
+	// font-size: rem($minFont);
+	// font-size: min(max(#{rem($minFont)}, #{$fluid}), #{rem($maxFont)});
+	// font-size: clamp(#{rem($minFont)}, #{$fluid}, #{rem($maxFont)});
+}
+
+
+// debugging using outline
+@mixin debug-css {
+	outline: 1px solid yellow;
+}
+
+@mixin inset {
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
