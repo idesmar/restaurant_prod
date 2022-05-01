@@ -1,7 +1,7 @@
 {
-  "name": "restaurantsite",
+  "name": "restaurant_site_100devs",
   "version": "1.0.0",
-  "description": "A restaurant site based on a dribble design by Mithun",
+  "description": "A restaurant site based on a dribble design by Mithun as project from #100Devs",
   "main": "index.js",
   "scripts": {
     "copy:assets": "copyfiles -u 1 ./src/assets/* dist",
@@ -24,7 +24,7 @@
   "author": "arca devian",
   "license": "ISC",
   "dependencies": {
-    "autoprefixer": "^10.4.4",
+    "autoprefixer": "^10.4.5",
     "copyfiles": "^2.4.1",
     "cssnano": "^5.1.7",
     "npm-run-all": "^4.1.5",

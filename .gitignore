@@ -10,6 +10,7 @@ dist
 # secrets and errors
 .env
 .log
+.hidden
 
 # svg templates in root
 *.svg
